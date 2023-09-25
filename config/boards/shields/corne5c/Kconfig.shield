@@ -1,0 +1,5 @@
+# Copyright (c) 2022 beta-tank
+# SPDX-License-Identifier: MIT
+
+config SHIELD_CORNE5c
+	def_bool $(shields_list_contains,corne5c)
