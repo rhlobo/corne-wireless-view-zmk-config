@@ -1,5 +1,0 @@
-# Copyright (c) 2022 beta-tank
-# SPDX-License-Identifier: MIT
-
-config SHIELD_TEST_BOARD
-	def_bool $(shields_list_contains,test_board)

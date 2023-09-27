@@ -1,0 +1,40 @@
+_TAG="${1:-default}"
+echo "ZMK_PATH: '${ZMK_PATH}'"
+echo "WORKPACE_PATH: '${WORKPACE_PATH}'"
+echo "BUILD_SUBFOLDER: '${BUILD_SUBFOLDER}'"
+
+
+test -d build && rm -Rf build
+mkdir -p "${WORKPACE_PATH}/${BUILD_SUBFOLDER}"
+
+
+cd $ZMK_PATH
+
+
+build-firmware(){
+    _NAME="$1"
+    _BOARD="$2"
+    _SHIELD="$3"
+    _SIDE="$4"
+
+    FW_FILE="${WORKPACE_PATH}/${BUILD_SUBFOLDER}/${_BOARD}-${_NAME}-${_SIDE}-zmk-${_TAG}.uf2"
+    rm -Rf "${FW_FILE}"
+
+    west build \
+        -s app \
+        --pristine \
+        -d "build/${_SIDE}" \
+        --board="${_BOARD}" \
+        -- -DSHIELD="${_SHIELD}" \
+        -DZMK_CONFIG=$WORKPACE_PATH/config && {
+            cp build/zephyr/zmk.uf2 "${FW_FILE}"
+            echo -e "SUCCESSFULLY build '${FW_FILE}'"
+        } || {
+            echo "BUILD FAILED"
+            exit 1
+        }
+}
+
+
+build-firmware "corne" "nice_nano_v2" "corne_right nice_view_adapter nice_view" "left"
+build-firmware "corne" "nice_nano_v2" "corne_right nice_view_adapter nice_view" "right"
