@@ -27,7 +27,7 @@ build-firmware(){
         --board="${_BOARD}" \
         -- -DSHIELD="${_SHIELD}" \
         -DZMK_CONFIG=$WORKPACE_PATH/config && {
-            cp build/zephyr/zmk.uf2 "${FW_FILE}"
+            cp "build/${_SIDE}/zephyr/zmk.uf2" "${FW_FILE}"
             echo -e "SUCCESSFULLY build '${FW_FILE}'"
         } || {
             echo "BUILD FAILED"

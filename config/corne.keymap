@@ -1,14 +1,12 @@
+// CRIAR COLUNAS EXTRAS
+//  - ADAPTAR COMBOS
+
+
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>         // Bluetooth Command Defines
 #include <dt-bindings/zmk/keys.h>       // Keycode Defines
+#include <dt-bindings/zmk/mouse.h>      // Mouse Emulation Defines
 #include <dt-bindings/zmk/ext_power.h>  // Power Management Behaviors
-
-// NAV LAYER -------
-// #include <dt-bindings/zmk/mouse.h>      // Mouse Defines
-// mouse click (M =) ON LAYER NAV
-// middle mouse click (N M =) ON LAYER NAV
-// right mouse clIck (NOT COMBO)
-// MOUSE COMMANDS
 
 
 // REFER TO LAYERS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +18,31 @@
 #define LSYM 2
 #define LNUM 3
 #define LSYS 4
+
+
+// MOUSE CONFIGS
+// Mouse movement: Configurable acceleration profile with three parameters:
+// - delay before movement
+// - time to max speed
+// - acceleration exponent: The exponent is usually set to:
+//   - 0 for constant speed
+//   - 1 for uniform acceleration
+//   - 2 for uniform jerk
+&mmv {
+    time-to-max-speed-ms = <1000>;
+    acceleration-exponent=<1>;
+};
+
+// Scrolling: Configurable acceleration profile with three parameters:
+// - delay before movement
+// - time to max speed
+// - acceleration exponent: The exponent is usually set to:
+//   - 0 for constant speed
+//   - 1 for uniform acceleration
+//   - 2 for uniform jerk
+&mwh {
+    acceleration-exponent=<1>;
+};
 
 
 / {
@@ -55,6 +78,24 @@
             bindings = <&kp SEMI>;
             layers = <LDEF LSYM LNAV>;
         };
+        combo_MOUSE_CLICK_LEFT {
+            timeout-ms = <50>;
+            key-positions = <25 26>;
+            bindings = <&mkp LCLK>;
+            layers = <LNAV>;
+        };
+        combo_MOUSE_CLICK_MIDDLE {
+            timeout-ms = <50>;
+            key-positions = <25 26 27>;
+            bindings = <&mkp MCLK>;
+            layers = <LNAV>;
+        };
+        combo_MOUSE_CLICK_RIGHT {
+            timeout-ms = <50>;
+            key-positions = <27 28>;
+            bindings = <&mkp RCLK>;
+            layers = <LNAV>;
+        };
         combo_LSYS {
             timeout-ms = <50>;
             key-positions = <21 22 23>;
@@ -63,7 +104,7 @@
         };
         combo_BT_CRL {
             timeout-ms = <50>;
-            key-positions = <5 6>;
+            key-positions = <10 11 12 13>;
             bindings = <&bt BT_CLR>;
             layers = <LSYS>;
         };
@@ -71,25 +112,25 @@
             timeout-ms = <50>;
             key-positions = <30 31 32>;
             bindings = <&sys_reset>;
-            layers = <LSYS>;
+            // layers = <LSYS>;
         };
         combo_BOOTLOADER_LEFT {
             timeout-ms = <50>;
             key-positions = <0 1 30>;
             bindings = <&bootloader>;
-            layers = <LSYS>;
+            // layers = <LSYS>;
         };
         combo_RESET_RIGHT {
             timeout-ms = <50>;
             key-positions = <33 34 35>;
             bindings = <&sys_reset>;
-            layers = <LSYS>;
+            // layers = <LSYS>;
         };
         combo_BOOTLOADER_RIGHT {
             timeout-ms = <50>;
             key-positions = <8 9 35>;
             bindings = <&bootloader>;
-            layers = <LSYS>;
+            // layers = <LSYS>;
         };
     };
 
@@ -164,12 +205,12 @@
 // ------------------------|           |    ESC    |   ENTER   |     |   SPACE   |    TAB    |    BSPC   |------------------------
 //                         -------------------------------------     -------------------------------------
         default_layer {
-            label = "DEFAULT";
+            label = "Base";
             bindings = <
        &kp Q       &kp W       &kp E       &kp R       &kp T             &kp Y        &kp U      &kp I        &kp O      &kp P
        &kp A       &hm LALT S  &hm LCMD D &hs LSHIFT F &hm LCTRL G       &hm LCTRL H  &kp J    &hm LCMD K   &hm LALT L   &td DQT SQT
        &kp Z       &kp X       &kp C       &kp V       &kp B             &kp N        &kp M    &equal_f4  &td SEMI COMMA &td COLON DOT
-                  &td DEL &none   &clt LNUM ESC   &hs LSHFT ENTER   &clt LNAV SPACE   &clt LSYM TAB   &bspc_del
+            &td DEL RCTRL      &clt LNUM ESC     &hs LSHFT ENTER     &clt LNAV SPACE     &clt LSYM TAB     &bspc_del
             >;
         };
 
@@ -177,40 +218,36 @@
 // -------------------------------------------------------------     -------------------------------------------------------------
 // |           |           |           |           |           |     |    HOME   |    PgDn   |    PgUp   |    END    |   INSERT  |
 // |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |     ≣     |
-// |           |           |           |           |           |     |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|
+// |           |           |           |           |           |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT   |▒▒▒▒▒▒▒▒▒▒▒|
 // ------------------------|           |           |           |     |███████████|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|------------------------
 //                         -------------------------------------     -------------------------------------
         nav_layer {
-            label = "NAV";
+            label = "Move";
             bindings = <
-      &trans      &trans      &trans      &trans       &trans           &kp HOME   &kp PG_DN    &kp PG_UP    &kp END     &kp INS
-      &trans      &trans      &trans      &trans       &trans           &kp LEFT    &kp DOWN      &kp UP    &kp RIGHT    &kp K_CMENU
-      &trans      &trans      &trans      &trans       &trans           &none         &none       &none       &none       &none
-                              &tog LNAV   &trans       &trans           &trans       &trans      &trans
+      &trans      &trans      &trans      &trans       &trans           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp INS
+      &trans      &trans      &trans      &trans       &trans           &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &kp K_CMENU
+      &trans      &trans      &trans      &trans       &trans     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none
+                              &tog LNAV   &trans       &trans           &trans       &trans       &trans
             >;
         };
         
 
+// TODO: Go back to earlier backup or remove right attributions (replace with &trans)
 // -------------------------------------------------------------     -------------------------------------------------------------
-// |     `     |     !     |     @     |     #     |     $     |     |     %     |     ^     |     &     |     *     |    / \    |
-// |     ~     |     ?     |     |     |     (     |     [     |     |     ]     |     )     |     _     |     +     |     -     |
-// |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|     <     |     {     |     |     }     |     >     |           |           |           |
+// |    ~ `    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
+// |     &     |     ?     |     _     |    ( )    |    [ ]    |     |           |           |           |     +     |     -     |
+// |     ^     |     |     |     %     |    < >    |    { }    |     |           |           |           |           |           |
 // ------------------------|           |           |           |     |           |███████████|           |------------------------
 //                         -------------------------------------     -------------------------------------
         symbol_layer {
-            label = "SYMBOL";
+            label = "Symbol";
             bindings = <
-     &kp GRAVE   &kp EXCL     &kp AT     &kp HASH    &kp DOLLAR        &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &td BSLH KP_SLASH
-     &kp TILDE  &kp QMARK    &kp PIPE    &kp LPAR    &kp LBKT           &kp RBKT   &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS
-       &none      &none       &none       &kp LT     &kp LBRC          &kp RBRC     &kp GT    &trans      &trans     &trans
-                            &tog LSYM    &trans       &trans           &trans       &trans      &trans
+  &td GRAVE TILDE &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR        &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &td BSLH KP_SLASH
+     &kp AMPS     &kp QMARK &kp UNDER &td RPAR LPAR &td RBKT LBKT     &kp RBKT    &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS
+    &kp CARET   &kp PIPE    &kp PRCNT   &td GT LT   &td RBRC LBRC     &kp RBRC     &kp GT     &trans      &trans     &trans
+                            &tog LSYM     &trans       &trans         &trans       &trans      &trans
             >;
         };
-    // SUGESTIONS:
-    // - Macro: rhlobo
-    // - Macro: rhlobo@gmail.com
-    // - Macro: lobo@pressag.io
-    // - Macro: pressag.io
 
 // -------------------------------------------------------------     -------------------------------------------------------------
 // |           |           |           |           |           |     |     1     |     2     |     3     |     *     |    / \    |
@@ -219,7 +256,7 @@
 // ------------------------|           |███████████|           |     |     0     |           |           |------------------------
 //                         -------------------------------------     -------------------------------------
         numerical_layer {
-            label = "NUMERIC";
+            label = "Numeric";
             bindings = <
       &trans      &trans      &trans      &trans       &trans          &kp KP_N1   &kp KP_N2   &kp KP_N3    &kp ASTRK  &td BSLH KP_SLASH
       &trans      &trans      &trans      &trans       &trans          &kp KP_N4   &kp KP_N5   &kp KP_N6    &kp PLUS   &kp MINUS
@@ -230,52 +267,61 @@
 
 
 // -------------------------------------------------------------     -------------------------------------------------------------
-// |     F1    |     F2    |     F3    |     F4    |     F5    |     |  B.DOWN   |    B.UP   |    F8     |   PSCRN   |    F10    |
-// |    REC    |    STOP   |    MUTE   |   V.DOWN  |    V.UP   |     |  BT.PREV  |  BT.NEXT  |   PSCRN   |    F11    |    F12    |
-// |     RW    |     FF    |    PREV   |    NEXT   |    PLAY   |     |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |
+// |     F1    |     F2    |     F4    |     F5    |  SCRLOCK  |     |▒▒▒▒▒▒▒▒▒▒▒|   B.DOWN  |    B.UP   |▒▒▒▒▒▒▒▒▒▒▒| EXT.POWER |
+// |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |     |    PLAY   |    PREV   |    NEXT   |    RW     |    FF     |
+// |     F8    |    F10    |    F11    |    F12    |   PSCRN   |     |    MUTE   |   V.DOWN  |    V.UP   |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|
 // ------------------------|           |           |           |     |           |           |           |------------------------
 //                         -------------------------------------     -------------------------------------
         system_layer {
-            label = "SYSTEM";
+            label = "System";
             bindings = <
-     &kp F1       &kp F2      &kp F3      &kp F4      &kp F5         &kp C_BRI_DN &kp C_BRI_UP   &kp F8  &ext_power EP_TOG  &kp F10
-     &kp C_REC  &kp C_STOP  &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP     &bt BT_PRV   &bt BT_NXT   &kp PSCRN      &kp F11       &kp F12
-     &kp C_RW    &kp C_FF   &kp C_PREV  &kp C_NEXT    &kp C_PP       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4
-                             &to LDEF     &trans       &trans           &trans       &trans       &trans
+     &kp F1      &kp F2      &kp F4       &kp F5      &kp SLCK          &none      &kp C_BRI_DN &kp C_BRI_UP &none     &ext_power EP_TOG
+  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp C_PP   &kp C_PREV   &kp C_NEXT   &kp C_RW  &kp C_FF 
+     &kp F8      &kp F10     &kp F11      &kp F12     &kp PSCRN         &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &none     &none
+                             &to LDEF     &trans      &bt BT_PRV        &bt BT_NXT &trans       &trans
             >;
         };
 
     };
 };
 
+// BACKUP ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // // -------------------------------------------------------------     -------------------------------------------------------------
-// // |     ~     |     !     |     @     |     #     |     $     |     |     %     |     ^     |     &     |     *     |     /     |
-// // |     `     |     ?     |     |     |     (     |    [ {    |     |    ] }    |     )     |     _     |     +     |     -     |
-// // |    `1     |     2     |     3     |     4     |     5     |     |     6     |     7     |     8     |     9     |     0     |
-// // ------------------------|           |           |           |     |           |           |           |------------------------
+// // |     `     |     !     |     @     |     #     |     $     |     |     %     |     ^     |     &     |     *     |    / \    |
+// // |     ~     |     ?     |     |     |     (     |     [     |     |     ]     |     )     |     _     |     +     |     -     |
+// // |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|     <     |     {     |     |     }     |     >     |           |           |           |
+// // ------------------------|           |           |           |     |           |███████████|           |------------------------
 // //                         -------------------------------------     -------------------------------------
 //         symbol_layer {
+//             label = "SYMBOL";
 //             bindings = <
-//      &kp TILDE   &kp EXCL     &kp AT     &kp HASH    &kp DOLLAR        &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &kp KP_SLASH
-//      &kp GRAVE  &kp QMARK    &kp PIPE    &kp LPAR    &kp LBKT           &kp RBKT   &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS
-//      &kp KP_N1  &kp KP_N2    &kp KP_N3  &kp KP_N4    &kp KP_N5         &kp KP_N6   &kp KP_N7   &kp KP_N8   &kp KP_N9  &kp KP_N0
-//                               &trans      &trans       &trans           &trans       &trans      &trans
+//      &kp GRAVE   &kp EXCL     &kp AT     &kp HASH    &kp DOLLAR        &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &td BSLH KP_SLASH
+//      &kp TILDE  &kp QMARK    &kp PIPE    &kp LPAR    &kp LBKT           &kp RBKT   &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS
+//        &none      &none       &none       &kp LT     &kp LBRC          &kp RBRC     &kp GT     &trans      &trans     &trans
+//                             &tog LSYM    &trans       &trans           &trans       &trans      &trans
 //             >;
 //         };
-//     };
+//     // SUGESTIONS:
+//     // - Macro: rhlobo
+//     // - Macro: rhlobo@gmail.com
+//     // - Macro: lobo@pressag.io
+//     // - Macro: pressag.io
+
 
 // // -------------------------------------------------------------     -------------------------------------------------------------
-// // |     ≣     |     ⤓     |           |           |           |     |    HOME   |    PgDw   |    PgUp   |    END    |   INSERT  |
-// // |    CAPS   |    ALT    |   SUPER   |   SHIFT   |    CTRL   |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |   SHIFT   |
-// // |           |           |           |           |           |     |           |           |           |           |           |
+// // |     F1    |     F2    |     F3    |     F4    |     F5    |     |  B.DOWN   |    B.UP   |    F8     | EX.POWER  |    F10    |
+// // |    REC    |    STOP   |    MUTE   |   V.DOWN  |    V.UP   |     |  BT.PREV  |  BT.NEXT  |   PSCRN   |    F11    |    F12    |
+// // |     RW    |     FF    |    PREV   |    NEXT   |    PLAY   |     |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |
 // // ------------------------|           |           |           |     |           |           |           |------------------------
 // //                         -------------------------------------     -------------------------------------
-//         nav_layer {
+//         system_layer {
+//             label = "SYSTEM";
 //             bindings = <
-//     &kp K_CMENU  &kp SLCK     &none       &none        &none            &kp HOME   &kp PG_DW    &kp PG_UP    &kp END     &kp INS
-//     &kp CAPS     &kp LALT    &kp LCMD   &kp LSHFT    &kp LCTRL          &kp LEFT    &kp DOWN      &kp UP    &kp RIGHT   &kp RSHIFT
-//       &trans      &trans      &trans      &trans       &trans           &none         &none       &none       &none       &none
-//                               &trans      &trans       &trans           &trans       &trans      &trans
+//      &kp F1       &kp F2      &kp F3      &kp F4      &kp F5         &kp C_BRI_DN &kp C_BRI_UP   &kp F8  &ext_power EP_TOG  &kp F10
+//      &kp C_REC  &kp C_STOP  &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP     &bt BT_PRV   &bt BT_NXT   &kp PSCRN      &kp F11       &kp F12
+//      &kp C_RW    &kp C_FF   &kp C_PREV  &kp C_NEXT    &kp C_PP       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4
+//                              &to LDEF     &trans       &trans           &trans       &trans       &trans
 //             >;
 //         };
+

@@ -3,11 +3,16 @@
     "build": {
       "dockerfile": "Dockerfile",
       "args": {
-        // "ZMK_URL": "https://github.com/urob/zmk.git",
-        // "ZMK_BRANCH": "mouse-3.2",
-        "ZMK_URL": "https://github.com/zmkfirmware/zmk.git",
+        "ZMK_URL": "https://github.com/urob/zmk.git",
         "ZMK_BRANCH": "main",
         "ZMK_PATH": "/zmk"
+
+        // "ZMK_URL": "https://github.com/urob/zmk.git",
+        // "ZMK_BRANCH": "mouse-3.2",
+
+        // "ZMK_URL": "https://github.com/zmkfirmware/zmk.git",
+        // "ZMK_BRANCH": "main",
+        // "ZMK_PATH": "/zmk"
       }
     },
     "runArgs": ["--security-opt", "label=disable"],
