@@ -112,7 +112,7 @@
             timeout-ms = <50>;
             key-positions = <30 31 32>;
             bindings = <&sys_reset>;
-            // layers = <LSYS>;
+            layers = <LSYS>;
         };
         combo_BOOTLOADER_LEFT {
             timeout-ms = <50>;
@@ -124,7 +124,7 @@
             timeout-ms = <50>;
             key-positions = <33 34 35>;
             bindings = <&sys_reset>;
-            // layers = <LSYS>;
+            layers = <LSYS>;
         };
         combo_BOOTLOADER_RIGHT {
             timeout-ms = <50>;
