@@ -36,5 +36,5 @@ build-firmware(){
 }
 
 
-build-firmware "corne" "nice_nano_v2" "corne_right nice_view_adapter nice_view" "left"
+build-firmware "corne" "nice_nano_v2" "corne_left nice_view_adapter nice_view" "left"
 build-firmware "corne" "nice_nano_v2" "corne_right nice_view_adapter nice_view" "right"
