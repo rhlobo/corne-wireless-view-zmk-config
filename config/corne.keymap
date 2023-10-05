@@ -29,7 +29,7 @@
 //   - 1 for uniform acceleration
 //   - 2 for uniform jerk
 &mmv {
-    time-to-max-speed-ms = <1000>;
+    time-to-max-speed-ms = <800>;
     acceleration-exponent=<1>;
 };
 
@@ -54,18 +54,31 @@
         // 24  |    25     |    26     |    27     |    28     |    29     |     |    30     |    31     |    32     |    33     |    34     |  35
         //     ------------------------|    36     |    37     |    38     |     |    39     |    40     |    41     |------------------------
         //                            -------------------------------------     -------------------------------------
-        combo_CAPS {
+        combo_LNUM {
             timeout-ms = <50>;
-            key-positions = <1 2 3>;
-            bindings = <&kp CAPS>;
-            layers = <LDEF>;
+            key-positions = <36 38>;
+            bindings = <&to LNUM>;
+            // layers = <LDEF>;
         };
-        combo_CAPSWORD {
+        combo_LNAV {
             timeout-ms = <50>;
-            key-positions = <4 5>;
-            bindings = <&caps_word>;
-            layers = <LDEF>;
+            key-positions = <36 39>;
+            bindings = <&to LNAV>;
+            // layers = <LDEF>;
         };
+        combo_LSYM {
+            timeout-ms = <50>;
+            key-positions = <36 40>;
+            bindings = <&to LSYM>;
+            // layers = <LDEF>;
+        };
+        combo_LSYS {
+            timeout-ms = <50>;
+            key-positions = <36 41>;
+            bindings = <&to LSYS>;
+            // layers = <LDEF>;
+        };
+
         combo_COLON {
             timeout-ms = <50>;
             key-positions = <32 34>;
@@ -96,42 +109,34 @@
             bindings = <&mkp RCLK>;
             layers = <LNAV>;
         };
-        combo_LSYS {
-            timeout-ms = <50>;
-            key-positions = <26 27 28>;
-            bindings = <&to LSYS>;
-            // layers = <LDEF>;
-        };
         combo_BT_CRL {
             timeout-ms = <50>;
             key-positions = <13 14 15 16>;
             bindings = <&bt BT_CLR>;
             layers = <LSYS>;
         };
-        combo_RESET_LEFT {
-            timeout-ms = <50>;
-            key-positions = <36 37 38>;
-            bindings = <&sys_reset>;
-            layers = <LSYS>;
-        };
-        combo_BOOTLOADER_LEFT {
-            timeout-ms = <50>;
-            key-positions = <1 2 36>;
-            bindings = <&bootloader>;
-            // layers = <LSYS>;
-        };
-        combo_RESET_RIGHT {
-            timeout-ms = <50>;
-            key-positions = <39 40 41>;
-            bindings = <&sys_reset>;
-            layers = <LSYS>;
-        };
-        combo_BOOTLOADER_RIGHT {
-            timeout-ms = <50>;
-            key-positions = <9 10 41>;
-            bindings = <&bootloader>;
-            // layers = <LSYS>;
-        };
+        // combo_RESET_LEFT {
+        //     timeout-ms = <50>;
+        //     key-positions = <36 37 38>;
+        //     bindings = <&sys_reset>;
+        //     layers = <LSYS>;
+        // };
+        // combo_BOOTLOADER_LEFT {
+        //     timeout-ms = <50>;
+        //     key-positions = <1 2 36>;
+        //     bindings = <&bootloader>;
+        // };
+        // combo_RESET_RIGHT {
+        //     timeout-ms = <50>;
+        //     key-positions = <39 40 41>;
+        //     bindings = <&sys_reset>;
+        //     layers = <LSYS>;
+        // };
+        // combo_BOOTLOADER_RIGHT {
+        //     timeout-ms = <50>;
+        //     key-positions = <9 10 41>;
+        //     bindings = <&bootloader>;
+        // };
     };
 
     behaviors {
@@ -140,42 +145,50 @@
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick_tap_ms = <0>;
+            quick-tap-ms = <50>;
+            require-prior-idle-ms = <125>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
-        hs: homerow_shifts {
+        tmt: thumb_mod_tap {
             compatible = "zmk,behavior-hold-tap";
-            label = "HOMEROW_SHIFTS";
+            label = "THUMB_MOD_TAP";
             #binding-cells = <2>;
             tapping-term-ms = <150>;
-            quick_tap_ms = <0>;
+            quick-tap-ms = <50>;
+            // require-prior-idle-ms = <125>;
             flavor = "balanced";
             bindings = <&kp>, <&kp>;
         };
-        clt: custom_layer_tap {
+        tlt: thumb_layer_tap {
             compatible = "zmk,behavior-hold-tap";
-            label = "LAYER_TAP";
+            label = "THUMB_LAYER_TAP";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
-            quick_tap_ms = <50>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <50>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&mo>, <&kp>;
         };
-        td: tapdance {
+        cht: custom_hold_tap {
             compatible = "zmk,behavior-hold-tap";
-            label = "TAPDANCE";
+            label = "CUSTOM_HOLD_TAP";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
-            quick_tap_ms = <0>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <50>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
+        ccaps_dance: control_caps_tap_dance {
+            compatible = "zmk,behavior-tap-dance";
+            label = "CAPS_TAP_DANCE";
+            #binding-cells = <0>;
+            tapping-term-ms = <200>;
+            bindings = <&kp RCTRL>, <&caps_word>;
+        };
 
-        // MOD-MORPH
+        // tap: BACKSPACE | SHIFT + tap: DELETE
         bspc_del: backspace_delete {
-            // Morphs LEFT_SHIFT + BACKSPACE into DELETE, and
-            // morphs RIGHT_SHIFT + BACKSPACE into RIGHT_SHIFT + DELETE
             compatible = "zmk,behavior-mod-morph";
             label = "BACKSPACE_DELETE";
             #binding-cells = <0>;
@@ -183,12 +196,13 @@
             mods = <(MOD_LSFT|MOD_RSFT)>;
             keep-mods = <(MOD_RSFT)>;
         };
+
+        // Morphs LSHIFT + EQUAL: F4
         equal_f4: equal_f4 {
-            // Morphs LEFT_SHIFT + EQUAL into F4
             compatible = "zmk,behavior-mod-morph";
             label = "EQUAL_F4";
             #binding-cells = <0>;
-            bindings = <&td F2 EQUAL>, <&kp F4>;
+            bindings = <&cht F2 EQUAL>, <&kp F4>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
             keep-mods = <(MOD_RSFT)>;
         };
@@ -198,87 +212,87 @@
     keymap {
         compatible = "zmk,keymap";
 
-// -------------------------------------------------------------     -------------------------------------------------------------
-// |     Q     |     W     |     E     |     R     |     T     |     |     Y     |     U     |     I     |     O     |     P     |
-// |     A     |     S     |     D     |     F     |     G     |     |     H     |     J     |     K     |     L     |    ' "    |
-// |     Z     |     X     |     C     |     V     |     B     |     |     N     |     M     |    = F2   |    , ;    |    . :    |
-// ------------------------|           |    ESC    |   ENTER   |     |   SPACE   |    TAB    |    BSPC   |------------------------
-//                         -------------------------------------     -------------------------------------
+//       -------------------------------------------------------------     -------------------------------------------------------------
+//       |     Q     |     W     |     E     |     R     |     T     |     |     Y     |     U     |     I     |     O     |     P     |
+//       |     A     |     S     |     D     |     F     |     G     |     |     H     |     J     |     K     |     L     |    ' "    |
+//       |     Z     |     X     |     C     |     V     |     B     |     |     N     |     M     |    = F2   |    , ;    |    . :    |
+//       ------------------------|   CAPSW   |   ENTER   |    ESC    |     |    BSPC   |   SPACE   |    TAB    |------------------------
+//                               -------------------------------------     -------------------------------------
         default_layer {
             label = "Base";
             bindings = <
 &trans       &kp Q       &kp W       &kp E       &kp R       &kp T             &kp Y        &kp U      &kp I        &kp O      &kp P                &trans
-&trans       &kp A       &hm LALT S  &hm LCMD D &hs LSHIFT F &hm LCTRL G       &hm LCTRL H  &kp J    &hm LCMD K   &hm LALT L   &td DQT SQT          &trans
-&trans       &kp Z       &kp X       &kp C       &kp V       &kp B             &kp N        &kp M    &equal_f4  &td SEMI COMMA &td COLON DOT        &trans
-            &td DEL RCTRL      &clt LNUM ESC     &hs LSHFT ENTER     &clt LNAV SPACE     &clt LSYM TAB     &bspc_del
+&trans       &kp A       &hm LALT S  &hm LCMD D &hm LSHIFT F &hm LCTRL G       &hm LCTRL H  &kp J    &hm LCMD K   &hm LALT L   &cht DQT SQT          &trans
+&trans       &kp Z       &kp X       &kp C       &kp V       &kp B             &kp N        &kp M    &equal_f4 &cht SEMI COMMA &cht COLON DOT        &trans
+                    &ccaps_dance    &tmt LSHFT ENTER    &tlt LNUM ESC        &tlt LNAV BSPC   &tlt LSYM SPACE     &tlt LSYS TAB
             >;
         };
 
 
-// -------------------------------------------------------------     -------------------------------------------------------------
-// |           |           |           |           |           |     |    HOME   |    PgDn   |    PgUp   |    END    |   INSERT  |
-// |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |     ≣     |
-// |           |           |           |           |           |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT   |▒▒▒▒▒▒▒▒▒▒▒|
-// ------------------------|           |           |           |     |███████████|▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|------------------------
-//                         -------------------------------------     -------------------------------------
+//       -------------------------------------------------------------     -------------------------------------------------------------
+//       |           |           |           |           |           |     |    HOME   |    PgDn   |    PgUp   |    END    |   INSERT  |
+//       |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |     ≣     |
+//       |           |           |           |           |           |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT  |   ENTER   |
+//       ------------------------|           |           |           |     |███████████| SCROLL DN | SCROLL UP |------------------------
+//                               -------------------------------------     -------------------------------------
         nav_layer {
             label = "Move";
             bindings = <
 &trans      &trans      &trans      &trans      &trans       &trans           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp INS          &trans
 &trans      &trans      &trans      &trans      &trans       &trans           &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &kp K_CMENU      &trans
-&trans      &trans      &trans      &trans      &trans       &trans     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &none            &trans
-                              &tog LNAV   &trans       &trans           &trans       &trans       &trans
+&trans      &trans      &trans      &trans      &trans       &trans     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &cht LCLK ENTER  &trans
+                                    &to LDEF   &trans       &trans           &trans    &mwh SCROLL_DOWN   &mwh SCROLL_UP
             >;
         };
-        
 
-// TODO: Go back to earlier backup or remove right attributions (replace with &trans)
-// -------------------------------------------------------------     -------------------------------------------------------------
-// |    ~ `    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
-// |     &     |     ?     |     _     |    ( )    |    [ ]    |     |           |           |           |     +     |     -     |
-// |     ^     |     |     |     %     |    < >    |    { }    |     |           |           |           |           |           |
-// ------------------------|           |           |           |     |           |███████████|           |------------------------
-//                         -------------------------------------     -------------------------------------
+
+//       TODO: Go back to earlier backup or remove right attributions (replace with &trans)
+//       -------------------------------------------------------------     -------------------------------------------------------------
+//       |    ~ `    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
+//       |     &     |     ?     |     _     |    ( )    |    [ ]    |     |           |           |           |     +     |     -     |
+//       |     ^     |     |     |     %     |    < >    |    { }    |     |           |           |           |           |           |
+//       ------------------------|           |           |           |     |           |███████████|           |------------------------
+//                               -------------------------------------     -------------------------------------
         symbol_layer {
             label = "Symbol";
             bindings = <
-&trans  &td GRAVE TILDE &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR        &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &td BSLH KP_SLASH        &trans
-&trans     &kp AMPS     &kp QMARK &kp UNDER &td RPAR LPAR &td RBKT LBKT     &kp RBKT    &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS                &trans
-&trans    &kp CARET   &kp PIPE    &kp PRCNT   &td GT LT   &td RBRC LBRC     &kp RBRC     &kp GT     &trans      &trans     &trans                   &trans
-                            &tog LSYM     &trans       &trans         &trans       &trans      &trans
+&trans  &cht GRAVE TILDE &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR         &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &cht BSLH KP_SLASH        &trans
+&trans     &kp AMPS     &kp QMARK &kp UNDER &cht RPAR LPAR &cht RBKT LBKT     &kp RBKT    &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS                &trans
+&trans    &kp CARET   &kp PIPE    &kp PRCNT   &cht GT LT   &cht RBRC LBRC     &kp RBRC     &kp GT     &trans      &trans     &trans                   &trans
+                                    &to LDEF     &trans       &trans         &trans       &trans      &trans
             >;
         };
 
-// -------------------------------------------------------------     -------------------------------------------------------------
-// |           |           |           |           |           |     |     1     |     2     |     3     |     *     |    / \    |
-// |           |           |           |           |           |     |     4     |     5     |     6     |     +     |     -     |
-// |           |           |           |           |           |     |     7     |     8     |     9     |           |           |
-// ------------------------|           |███████████|           |     |     0     |           |           |------------------------
-//                         -------------------------------------     -------------------------------------
+//       -------------------------------------------------------------     -------------------------------------------------------------
+//       |           |           |           |           |           |     |     1     |     2     |     3     |     *     |    / \    |
+//       |           |           |           |           |           |     |     4     |     5     |     6     |     +     |     -     |
+//       |           |           |           |           |           |     |     7     |     8     |     9     |           |           |
+//       ------------------------|           |           |███████████|     |     0     |           |           |------------------------
+//                               -------------------------------------     -------------------------------------
         numerical_layer {
             label = "Numeric";
             bindings = <
-&trans      &trans      &trans      &trans      &trans       &trans      &kp N1      &kp N2      &kp N3    &kp ASTRK  &td BSLH SLASH         &trans
+&trans      &trans      &trans      &trans      &trans       &trans      &kp N1      &kp N2      &kp N3    &kp ASTRK  &cht BSLH SLASH         &trans
 &trans      &trans      &trans      &trans      &trans       &trans      &kp N4      &kp N5      &kp N6    &kp PLUS   &kp MINUS              &trans
 &trans      &trans      &trans      &trans      &trans       &trans      &kp N7      &kp N8      &kp N9    &trans     &trans                 &trans
-                            &tog LNUM     &trans       &trans          &kp N0     &trans      &trans
+                                 &to LDEF     &trans       &trans          &kp N0     &trans      &trans
             >;
         };
 
 
-// -------------------------------------------------------------     -------------------------------------------------------------
-// |     F1    |     F2    |     F4    |     F5    |  SCRLOCK  |     |▒▒▒▒▒▒▒▒▒▒▒|   B.DOWN  |    B.UP   |▒▒▒▒▒▒▒▒▒▒▒| EXT.POWER |
-// |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |     |    PLAY   |    PREV   |    NEXT   |    RW     |    FF     |
-// |     F8    |    F10    |    F11    |    F12    |   PSCRN   |     |    MUTE   |   V.DOWN  |    V.UP   |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|
-// ------------------------|           |           |           |     |           |           |           |------------------------
-//                         -------------------------------------     -------------------------------------
+//       -------------------------------------------------------------     -------------------------------------------------------------
+//       |     F1    |     F2    |     F4    |     F5    |  SCRLOCK  |     |▒▒▒▒▒▒▒▒▒▒▒|   B.DOWN  |    B.UP   |▒▒▒▒▒▒▒▒▒▒▒| EXT.POWER |
+//       |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |     |    PLAY   |    PREV   |    NEXT   |    RW     |    FF     |
+//       |     F8    |    F10    |    F11    |    F12    |   PSCRN   |     |    MUTE   |   V.DOWN  |    V.UP   |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|
+//       ------------------------|           |           |           |     |           |           |           |------------------------
+//                               -------------------------------------     -------------------------------------
         system_layer {
             label = "System";
             bindings = <
 &trans     &kp F1      &kp F2      &kp F4       &kp F5      &kp SLCK          &none      &kp C_BRI_DN &kp C_BRI_UP &none     &ext_power EP_TOG      &trans
 &trans  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4      &kp C_PP   &kp C_PREV   &kp C_NEXT   &kp C_RW  &kp C_FF               &trans
 &trans     &kp F8      &kp F10     &kp F11      &kp F12     &kp PSCRN         &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &none     &none                  &trans
-                             &to LDEF     &trans      &bt BT_PRV        &bt BT_NXT &trans       &trans
+                                   &to LDEF     &trans      &bt BT_PRV        &bt BT_NXT &trans       &trans
             >;
         };
 

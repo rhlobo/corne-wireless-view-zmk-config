@@ -1,4 +1,8 @@
 - DEBOUNCE
+    - adjust
+- RETY BLUETOOTH POWER TWEAK
+
+- ADJUST HOMEMODS
 
 https://github.com/urob/zmk-config
 
@@ -7,6 +11,7 @@ https://github.com/urob/zmk-config
     https://github.com/urob/zmk-config
 
 - MOUSE LEFT CLICK PASTES?
+- SCROLL
 
 - TEST NUMBER KEYS
     IS IT NUMLOCK THE CAUSE?
