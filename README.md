@@ -1,8 +1,16 @@
-- DEBOUNCE
-    - adjust
-- RETY BLUETOOTH POWER TWEAK
+- Acrescentar DELETE - Nao funcionando
+- Novo local para TAB??
+- Segurar o backspace??
 
 - ADJUST HOMEMODS
+- RETY BLUETOOTH POWER TWEAK
+- DEBOUNCE
+    - adjust
+
+SHIFT BEHAVIOUR
+- COLON
+- SEMI
+
 
 https://github.com/urob/zmk-config
 
