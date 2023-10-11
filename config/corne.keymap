@@ -145,10 +145,10 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
-            tapping-term-ms = <250>;
-            quick-tap-ms = <50>;
-            require-prior-idle-ms = <125>;
-            flavor = "balanced";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <75>;
+            require-prior-idle-ms = <100>;
+            flavor = "tap-preferred";
             // tapping-term-ms = <200>;
             // quick-tap-ms = <50>
             // require-prior-idle-ms = <150>;
@@ -159,10 +159,10 @@
             compatible = "zmk,behavior-hold-tap";
             label = "THUMB_MOD_TAP";
             #binding-cells = <2>;
-            tapping-term-ms = <250>;
-            quick-tap-ms = <50>;
-            //reqtuire-prior-idle-ms = <125>;
-            flavor = "balanced";
+            tapping-term-ms = <200>;
+            // quick-tap-ms = <50>;
+            //reqtuire-prior-idle-ms = <100>;
+            flavor = "hold-preferred";
             bindings = <&kp>, <&kp>;
         };
         tlt: thumb_layer_tap {
@@ -170,8 +170,8 @@
             label = "THUMB_LAYER_TAP";
             #binding-cells = <2>;
             tapping-term-ms = <250>;
-            quick-tap-ms = <75>;
-            require-prior-idle-ms = <125>;
+            quick-tap-ms = <100>;
+            require-prior-idle-ms = <100>;
             flavor = "balanced";
             bindings = <&mo>, <&kp>;
         };
@@ -180,7 +180,7 @@
             label = "CUSTOM_HOLD_TAP";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick-tap-ms = <75>;
+            quick-tap-ms = <50>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
@@ -189,8 +189,9 @@
             label = "SCROLL_HOLD_TAP";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            quick-tap-ms = <75>;
-            flavor = "tap-preferred";
+            require-prior-idle-ms = <100>;
+            // quick-tap-ms = <75>;
+            flavor = "hold-preferred";
             bindings = <&mwh>, <&kp>;
         };
         ccaps_dance: control_caps_tap_dance {
@@ -236,7 +237,7 @@
             compatible = "zmk,behavior-mod-morph";
             label = "COMA_SEMI";
             #binding-cells = <0>;
-            bindings = <&cht F2 EQUAL>, <&kp F4>;
+            bindings = <&kp COMMA>, <&kp SEMI>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
             keep-mods = <(MOD_RSFT)>;
         };
@@ -289,10 +290,10 @@
         symbol_layer {
             label = "Symbol";
             bindings = <
-&trans  &cht GRAVE TILDE &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR         &kp PRCNT   &kp CARET   &kp AMPS    &kp ASTRK  &cht BSLH KP_SLASH        &trans
-&trans     &kp AMPS     &kp QMARK &kp UNDER &cht RPAR LPAR &cht RBKT LBKT     &kp RBKT    &kp RPAR    &kp UNDER   &kp PLUS   &kp MINUS                &trans
-&trans    &kp CARET   &kp PIPE    &kp PRCNT   &cht GT LT   &cht RBRC LBRC     &kp RBRC     &kp GT     &trans      &trans     &trans                   &trans
-                                    &trans       &trans       &trans         &trans       &trans      &to LDEF
+&trans  &cht CARET GRAVE &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR         &trans      &trans      &trans      &kp ASTRK  &cht BSLH KP_SLASH   &trans
+&trans    &kp TILDE     &kp QMARK &kp UNDER &cht RPAR LPAR &cht RBKT LBKT     &trans      &trans      &trans      &kp PLUS   &kp MINUS            &trans
+&trans    &kp AMPS    &kp PIPE    &kp PRCNT   &cht GT LT   &cht RBRC LBRC     &trans      &trans      &trans      &trans     &trans               &trans
+                                    &trans       &trans       &trans          &trans      &trans      &to LDEF
             >;
         };
 

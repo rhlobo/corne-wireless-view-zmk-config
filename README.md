@@ -1,9 +1,9 @@
-- Acrescentar DELETE - Nao funcionando
-- Novo local para TAB??
+- Acresentar DELETE = OK
+- Novo local para TAB - OK
 - Segurar o backspace??
 
 - ADJUST HOMEMODS
-- RETY BLUETOOTH POWER TWEAK
+- RTY BLUETOOTH POWER TWEAK
 - DEBOUNCE
     - adjust
 
@@ -22,7 +22,7 @@ https://github.com/urob/zmk-config
 - SCROLL
 
 - TEST NUMBER KEYS
-    IS IT NUMLOCK THE CAUSE?
+    IS IT NUMLOCK THE CAUSE?gs
 
 - ZMK_DISPLAY_INVERT NOT WORKING
 - CUSTAOM STATUS SCREEN
@@ -34,3 +34,5 @@ https://github.com/zmkfirmware/zmk/compare/main...caksoylar:zmk:caksoylar/zen-v1
 
 
 https://github.com/manna-harbour/miryoku_zmk
+
+
