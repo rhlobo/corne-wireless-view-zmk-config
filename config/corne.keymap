@@ -145,9 +145,9 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
+            tapping-term-ms = <175>;
             quick-tap-ms = <75>;
-            require-prior-idle-ms = <100>;
+            require-prior-idle-ms = <125>;
             flavor = "tap-preferred";
             // tapping-term-ms = <200>;
             // quick-tap-ms = <50>
@@ -184,16 +184,16 @@
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
-        scroll_ht: scroll_hold_tap {
-            compatible = "zmk,behavior-hold-tap";
-            label = "SCROLL_HOLD_TAP";
-            #binding-cells = <2>;
-            tapping-term-ms = <200>;
-            require-prior-idle-ms = <100>;
-            // quick-tap-ms = <75>;
-            flavor = "hold-preferred";
-            bindings = <&mwh>, <&kp>;
-        };
+        // scroll_ht: scroll_hold_tap {
+        //     compatible = "zmk,behavior-hold-tap";
+        //     label = "SCROLL_HOLD_TAP";
+        //     #binding-cells = <2>;
+        //     tapping-term-ms = <200>;
+        //     require-prior-idle-ms = <100>;
+        //     // quick-tap-ms = <75>;
+        //     flavor = "hold-preferred";
+        //     bindings = <&mwh>, <&kp>;
+        // };
         ccaps_dance: control_caps_tap_dance {
             compatible = "zmk,behavior-tap-dance";
             label = "CAPS_TAP_DANCE";
@@ -257,34 +257,34 @@
             label = "Base";
             bindings = <
 &trans       &kp Q       &kp W       &kp E       &kp R       &kp T             &kp Y        &kp U      &kp I        &kp O      &kp P                &trans
-&trans       &kp A       &hm LALT S  &hm LCMD D &hm LSHIFT F &hm LCTRL G       &hm LCTRL H  &kp J    &hm LCMD K   &hm LALT L   &cht DQT SQT         &trans
+&trans       &kp A       &hm LALT S  &hm LCMD D &hm LSHIFT F &hm LCTRL G     &hm LCTRL H &hm LSHIFT J &hm LCMD K   &hm LALT L   &cht DQT SQT         &trans
 &trans       &kp Z       &kp X       &kp C       &kp V       &kp B             &kp N        &kp M    &equal_f2_f4 &coma_semi   &dot_colon           &trans
-                    &tlt LSYS TAB    &tmt LSHFT ENTER    &tlt LNUM ESC        &bspc_del_nav   &tlt LSYM SPACE     &ccaps_dance
+                    &tlt LSYS TAB    &tmt LSHFT ENTER    &tlt LNUM ESC       &bspc_del_nav   &tlt LSYM SPACE     &ccaps_dance
             >;
         };
 
 
 //       -------------------------------------------------------------     -------------------------------------------------------------
-//       |           |           |           |           |           |     |    HOME   |    PgDn   |    PgUp   |    END    |   INSERT  |
-//       |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |     ≣     |
-//       |           |           |           |           |           |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT  |   ENTER   |
-//       ------------------------|           |           |           |     |███████████| SCROLL DN | SCROLL UP |------------------------
+//       |           |           |           |           |           |     |    HOME   |    PgDn   |    PgUp   |    END    |     ≣     |
+//       |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   | SCROLL UP |
+//       |    UNDO   |    CUT    |    COPY   |   PASTE   |    REDO   |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT  | SCROLL DW |
+//       ------------------------|           |           |           |     |███████████|           |           |------------------------
 //                               -------------------------------------     -------------------------------------
         nav_layer {
             label = "Move";
             bindings = <
-&trans      &trans      &trans      &trans      &trans       &trans           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp INS          &trans
-&trans      &trans      &trans      &trans      &trans       &trans           &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &scroll_ht SCROLL_UP K_CMENU  &trans
-&trans      &trans      &trans      &trans      &trans       &trans     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &scroll_ht SCROLL_DOWN ENTER  &trans
+&trans      &trans      &trans      &trans      &trans       &trans           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp  K_CMENU         &trans
+&trans      &trans      &trans      &trans      &trans       &trans           &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &mwh SCROLL_UP      &trans
+&trans      &kp LC(Z)   &kp LC(X)   &kp LC(C)   &kp LC(V)    &kp LC(Y)     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &mwh SCROLL_DOWN    &trans
                                     &trans      &trans       &trans           &trans      &trans      &to LDEF
             >;
         };
 
 //       TODO: Go back to earlier backup or remove right attributions (replace with &trans)
 //       -------------------------------------------------------------     -------------------------------------------------------------
-//       |    ~ `    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
-//       |     &     |     ?     |     _     |    ( )    |    [ ]    |     |           |           |           |     +     |     -     |
-//       |     ^     |     |     |     %     |    < >    |    { }    |     |           |           |           |           |           |
+//       |    ^ `    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
+//       |     ~     |     ?     |     _     |    ( )    |    [ ]    |     |           |           |           |     +     |     -     |
+//       |     &     |     |     |     %     |    < >    |    { }    |     |           |           |           |           |           |
 //       ------------------------|           |           |           |     |           |███████████|           |------------------------
 //                               -------------------------------------     -------------------------------------
         symbol_layer {
