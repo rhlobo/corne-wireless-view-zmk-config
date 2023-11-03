@@ -272,7 +272,7 @@
             label = "Base";
             bindings = <
 &trans       &kp Q       &kp W       &kp E       &kp R       &kp T             &kp Y        &kp U      &kp I        &kp O      &kp P                &trans
-&trans       &kp A       &hm LALT S  &hm LCMD D &hm LSHIFT F &hm LCTRL G     &hm LCTRL H &hm RSHIFT J &hm LCMD K   &hm LALT L   &cht DQT SQT         &trans
+&trans       &kp A       &hm LALT S  &hm LCMD D &hm LCTRL F &hm LSHIFT G     &hm RSHIFT H &hm LCTRL J &hm LCMD K   &hm LALT L   &cht DQT SQT         &trans
 &trans       &kp Z       &kp X       &kp C       &kp V       &kp B             &kp N        &kp M    &equal_f2_f4 &coma_semi   &dot_colon           &trans
                     &tlt LSYS TAB    &tmt LSHFT ENTER    &tlt LNUM ESC       &bspc_del_nav   &tlt LSYM SPACE     &ccaps_dance
             >;
@@ -333,8 +333,8 @@
 //       |     F1    |     F2    |     F4    |     F5    |  SCRLOCK  |     |▒▒▒▒▒▒▒▒▒▒▒|   B.DOWN  |    B.UP   |▒▒▒▒▒▒▒▒▒▒▒| EXT.POWER |
 //       |    BT1    |    BT2    |    BT3    |    BT4    |    BT5    |     |    PREV   |    PLAY   |    NEXT   |    RW     |    FF     |
 //       |     F8    |    F10    |    F11    |    F12    |   PSCRN   |     |    MUTE   |   V.DOWN  |    V.UP   |▒▒▒▒▒▒▒▒▒▒▒|▒▒▒▒▒▒▒▒▒▒▒|
-//       ------------------------|           |           |           |     |           |           |           |------------------------
-//                               -------------------------------------     -------------------------------------
+//       ------------------------|███████████|           |           |     |           |           |           |------------------------
+//                               -------------------------------------     ------------------------------------
         system_layer {
             label = "System";
             bindings = <
