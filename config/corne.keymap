@@ -123,13 +123,13 @@
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
             #binding-cells = <2>;
-            tapping-term-ms = <150>;
+            tapping-term-ms = <175>;
             quick-tap-ms = <100>;
-            require-prior-idle-ms = <250>;
+            require-prior-idle-ms = <150>;
             flavor = "tap-preferred";
-            // tapping-term-ms = <200>;
-            // quick-tap-ms = <50>
-            // require-prior-idle-ms = <150>;
+            // tapping-term-ms = <150>;
+            // quick-tap-ms = <100>;
+            // require-prior-idle-ms = <250>;
             // flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
@@ -280,9 +280,9 @@
         symbol_layer {
             label = "Symbol";
             bindings = <
-&trans  &cht GRAVE CARET &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR         &trans      &trans      &trans      &kp ASTRK  &cht BSLH KP_SLASH   &trans
-&trans    &kp TILDE     &kp QMARK &kp UNDER &cht RPAR LPAR &cht RBKT LBKT     &trans      &trans      &trans      &kp PLUS   &kp MINUS            &trans
-&trans    &kp AMPS      &kp PRCNT  &kp PIPE   &cht GT LT   &cht RBRC LBRC     &trans      &trans      &trans      &trans     &trans               &trans
+&trans  &cht GRAVE CARET &kp EXCL  &kp AT      &kp HASH    &kp DOLLAR         &trans      &trans      &trans      &kp ASTRK   &cht BSLH KP_SLASH   &trans
+&trans    &kp TILDE     &kp QMARK &kp UNDER &cht RPAR LPAR &cht RBKT LBKT     &trans      &trans      &trans      &kp KP_PLUS &kp MINUS            &trans
+&trans    &kp AMPS      &kp PRCNT  &kp PIPE   &cht GT LT   &cht RBRC LBRC     &trans      &trans      &trans      &trans      &trans               &trans
                                     &trans       &trans       &trans          &trans      &trans      &to LDEF
             >;
         };
