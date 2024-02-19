@@ -1,8 +1,9 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>         // Bluetooth Command Defines
 #include <dt-bindings/zmk/keys.h>       // Keycode Defines
-#include <dt-bindings/zmk/mouse.h>      // Mouse Emulation Defines
 #include <dt-bindings/zmk/ext_power.h>  // Power Management Behaviors
+#include "mouse_old.dtsi"               // Mouse Emulation Utilities
+#include "combos.dtsi"                   // Combo Key Utilities
 
 
 // REFER TO LAYERS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,111 +17,91 @@
 #define LSYS 4
 
 
-// MOUSE CONFIGS
-// Mouse movement: Configurable acceleration profile with three parameters:
-// - delay before movement
-// - time to max speed
-// - acceleration exponent: The exponent is usually set to:
-//   - 0 for constant speed
-//   - 1 for uniform acceleration
-//   - 2 for uniform jerk
-&mmv {
-    delay-ms = <0>;
-    time-to-max-speed-ms = <300>;
-    acceleration-exponent=<1>;
-};
-
-// Scrolling: Configurable acceleration profile with three parameters:
-// - delay before movement
-// - time to max speed
-// - acceleration exponent: The exponent is usually set to:
-//   - 0 for constant speed
-//   - 1 for uniform acceleration
-//   - 2 for uniform jerk
-&mwh {
-    delay-ms = <0>;
-    time-to-max-speed-ms = <300>;
-    acceleration-exponent=<0>;
-};
-
-
 / {
+    // ###############################################################################################################################
+    // COMBOS ########################################################################################################################
+    // ###############################################################################################################################
     combos {
         compatible = "zmk,combos";
-        //     -------------------------------------------------------------     -------------------------------------------------------------
-        //  0  |     1     |     2     |     3     |     4     |     5     |     |     6     |     7     |     8     |     9     |    10     |  11
-        // 12  |    13     |    14     |    15     |    16     |    17     |     |    18     |    19     |    20     |    21     |    22     |  23
-        // 24  |    25     |    26     |    27     |    28     |    29     |     |    30     |    31     |    32     |    33     |    34     |  35
-        //     ------------------------|    36     |    37     |    38     |     |    39     |    40     |    41     |------------------------
-        //                            -------------------------------------     -------------------------------------
+//     -------------------------------------------------------------     -------------------------------------------------------------
+//     |    KL15   |    KL14   |    KL13   |    KL12   |    KL11   |     |    KR11   |    KR12   |    KR13   |    KR14   |   KR15    |
+//     |    KL25   |    KL24   |    KL23   |    KL22   |    KL21   |     |    KR21   |    KR22   |    KR23   |    KR24   |   KR25    |
+//     |    KL35   |    KL34   |    KL33   |    KL32   |    KL31   |     |    KR31   |    KR32   |    KR33   |    KR34   |   KR35    |
+//     ------------------------|    KL43   |    KL42   |    KL41   |     |    KR41   |    KR42   |    KR43   |------------------------
+//                            -------------------------------------     -------------------------------------
 
-        // STICKY LAYERS COMBO
+        // STICKY LAYERS COMBO ########################################################################################################
+        // Sticks NUMERIC LAYER ON
         combo_LNUM {
             timeout-ms = <75>;
-            key-positions = <36 38>;
+            key-positions = <KL43 KL41>;
             bindings = <&to LNUM>;
         };
+        // Sticks NAVIGATION LAYER ON
         combo_LNAV {
             timeout-ms = <75>;
-            key-positions = <36 39>;
+            key-positions = <KL43 KR41>;
             bindings = <&to LNAV>;
         };
+        // Sticks SYMBOL LAYER ON
         combo_LSYM {
             timeout-ms = <75>;
-            key-positions = <36 40>;
+            key-positions = <KL43 KR42>;
             bindings = <&to LSYM>;
         };
+        // Sticks SYSTEM LAYER ON
         combo_LSYS {
             timeout-ms = <75>;
-            key-positions = <36 41>;
+            key-positions = <KL43 KR43>;
             bindings = <&to LSYS>;
         };
 
+        // MOUSE COMBOS ##############################################################################################################
         combo_MOUSECLICK {
             timeout-ms = <75>;
-            key-positions = <31 32 33>;
+            key-positions = <KR32 KR33 KR34>;
             bindings = <&mkp LCLK>;
         };
 
+        // STICKY MODS COMBOS ########################################################################################################
+        // Sticks CAPSLOCK ON
         combo_CAPS {
             timeout-ms = <75>;
-            key-positions = <36 37>;
+            key-positions = <KL43 KL42>;
             bindings = <&kp CAPSLOCK>;
         };
 
+        // MISCELLANEOUS COMBOS #######################################################################################################
+        // Clears current BT pairing
         combo_BT_CRL {
             timeout-ms = <50>;
-            key-positions = <13 14 15 16>;
+            key-positions = <KL25 KL24 KL23 KL22>;
             bindings = <&bt BT_CLR>;
             layers = <LSYS>;
         };
 
+        // NVIM save and quit combo
+        combo_NVIM_SAVEQUIT {
+            timeout-ms = <75>;
+            key-positions = <KL15 KL14>;
+            bindings = <&nvim_savequit>;
+            layers = <LNUM>;
+        };
 
-        // combo_RESET_LEFT {
-        //     timeout-ms = <50>;
-        //     key-positions = <36 37 38>;
-        //     bindings = <&sys_reset>;
-        //     layers = <LSYS>;
-        // };
-        // combo_BOOTLOADER_LEFT {
-        //     timeout-ms = <50>;
-        //     key-positions = <1 2 36>;
-        //     bindings = <&bootloader>;
-        // };
-        // combo_RESET_RIGHT {
-        //     timeout-ms = <50>;
-        //     key-positions = <39 40 41>;
-        //     bindings = <&sys_reset>;
-        //     layers = <LSYS>;
-        // };
-        // combo_BOOTLOADER_RIGHT {
-        //     timeout-ms = <50>;
-        //     key-positions = <9 10 41>;
-        //     bindings = <&bootloader>;
-        // };
+        // CCEDIL xpsarch combo (keymap workaround using RALT+, c)
+        combo_CCDEIL {
+            timeout-ms = <75>;
+            key-positions = <KR25 KL33>;
+            bindings = <&ccedil_xpsarch_macro>;
+            layers = <LDEF>;
+        };
     };
 
+    // ###############################################################################################################################
+    // BEHAVIORS #####################################################################################################################
+    // ###############################################################################################################################
     behaviors {
+        // Hold for HomeRow Mods and Tap for Keys
         hm: homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             label = "HOMEROW_MODS";
@@ -129,12 +110,10 @@
             quick-tap-ms = <100>;
             require-prior-idle-ms = <150>;
             flavor = "tap-preferred";
-            // tapping-term-ms = <150>;
-            // quick-tap-ms = <100>;
-            // require-prior-idle-ms = <250>;
-            // flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
+
+        // Slow Hold for HomeRow Mods and Tap for Keys
         shm: slow_homerow_mods {
             compatible = "zmk,behavior-hold-tap";
             label = "SLOW_HOMEROW_MODS";
@@ -143,22 +122,20 @@
             quick-tap-ms = <150>;
             require-prior-idle-ms = <250>;
             flavor = "balanced";
-            // tapping-term-ms = <200>;
-            // quick-tap-ms = <50>
-            // require-prior-idle-ms = <150>;
-            // flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
         };
+
+        // Thumb Hold for Mods and Taps for Keys
         tmt: thumb_mod_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "THUMB_MOD_TAP";
             #binding-cells = <2>;
             tapping-term-ms = <200>;
-            // quick-tap-ms = <50>;
-            // reqtuire-prior-idle-ms = <100>;
             flavor = "hold-preferred";
             bindings = <&kp>, <&kp>;
         };
+
+        // Thumb Hold for Layers and Tap for Keys
         tlt: thumb_layer_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "THUMB_LAYER_TAP";
@@ -169,6 +146,8 @@
             flavor = "balanced";
             bindings = <&mo>, <&kp>;
         };
+
+        // Custom Hold and Tap Behavior
         cht: custom_hold_tap {
             compatible = "zmk,behavior-hold-tap";
             label = "CUSTOM_HOLD_TAP";
@@ -177,42 +156,6 @@
             quick-tap-ms = <100>;
             flavor = "tap-preferred";
             bindings = <&kp>, <&kp>;
-        };
-        // scroll_ht: scroll_hold_tap {
-        //     compatible = "zmk,behavior-hold-tap";
-        //     label = "SCROLL_HOLD_TAP";
-        //     #binding-cells = <2>;
-        //     tapping-term-ms = <200>;
-        //     require-prior-idle-ms = <100>;
-        //     // quick-tap-ms = <75>;
-        //     flavor = "hold-preferred";
-        //     bindings = <&mwh>, <&kp>;
-        // };
-        // tabcaps: tabcaps_dance {
-        //     compatible = "zmk,behavior-tap-dance";
-        //     label = "TABCAPS_DANCE";
-        //     #binding-cells = <0>;
-        //     tapping-term-ms = <250>;
-        //     bindings = <&kp TAB>, <&kp CAPS>;
-        // };
-
-        a_accents: a_accents_hold_tap {
-            compatible = "zmk,behavior-hold-tap";
-            label = "A_ACCENTS_HOLD_TAP";
-            #binding-cells = <2>;
-            tapping-term-ms = <175>;
-            quick-tap-ms = <100>;
-            flavor = "tap-preferred";
-            bindings = <&ac_atil>, <&ac_aacu>;
-        };
-        o_accents: o_accents_hold_tap {
-            compatible = "zmk,behavior-hold-tap";
-            label = "O_ACCENTS_HOLD_TAP";
-            #binding-cells = <2>;
-            tapping-term-ms = <175>;
-            quick-tap-ms = <100>;
-            flavor = "tap-preferred";
-            bindings = <&ac_otil>, <&ac_oacu>;
         };
 
         // tap: BACKSPACE | RSHIFT + tap: DELETE
@@ -224,7 +167,7 @@
             mods = <(MOD_RSFT)>;
         };
 
-        // Morphs LSHIFT + EQUAL: F4
+        // Morphs LSHIFT + EQUAL into F4
         equal_f2_f4: equal_f2_f4 {
             compatible = "zmk,behavior-mod-morph";
             label = "EQUAL_F2_F4";
@@ -234,7 +177,7 @@
             keep-mods = <(MOD_RSFT)>;
         };
 
-        // Morphs LSHIFT + DOT: COLON
+        // Morphs LSHIFT + DOT into COLON
         dot_colon: dot_colon {
             compatible = "zmk,behavior-mod-morph";
             label = "DOT_COLON";
@@ -244,7 +187,7 @@
             keep-mods = <(MOD_RSFT)>;
         };
 
-        // Morphs LSHIFT + COMA: SEMI
+        // Morphs LSHIFT + COMA into SEMI
         coma_semi: coma_semi {
             compatible = "zmk,behavior-mod-morph";
             label = "COMA_SEMI";
@@ -255,9 +198,57 @@
         };
     };
 
+    // ###############################################################################################################################
+    // MACROS ########################################################################################################################
+    // ###############################################################################################################################
+    macros {
+        // Macro: ESC :w ENTER
+        nvim_save: nvim_save {
+            label = "nvim_save";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &kp ESC &kp COLON &kp W &kp ENTER>;
+        };
 
+        // Macro: ESC :q! ENTER
+        nvim_quit: nvim_quit {
+            label = "nvim_quit";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &kp ESC &kp COLON &kp Q &kp EXCLAMATION &kp ENTER>;
+        };
+
+        // Macro: ESC :wq ENTER
+        nvim_savequit: nvim_savequit {
+            label = "nvim_savequit";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &kp ESC &kp COLON &kp W &kp Q &kp ENTER>;
+        };
+
+        // Macro: RALT+, c (CCEDIL in xpsarch keymap workaround)
+        ccedil_xpsarch_macro: ccedil_xpsarch_macro {
+            label = "ccedil_xpsarch_macro";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <30>;
+            tap-ms = <40>;
+            bindings = <&macro_tap &kp RA(COMMA) &kp C>;
+        };
+    };
+
+    // ###############################################################################################################################
+    // KEYMAP ########################################################################################################################
+    // ###############################################################################################################################
     keymap {
         compatible = "zmk,keymap";
+
 
 //       -------------------------------------------------------------     -------------------------------------------------------------
 //       |     Q     |     W     |     E     |     R     |     T     |     |     Y     |     U     |     I     |     O     |     P     |
@@ -277,20 +268,30 @@
 
 
 //       -------------------------------------------------------------     -------------------------------------------------------------
-//       |           |           |   RCLICK  |  LCLICK   |  MCKICK   |     |    HOME   |    PgDn   |    PgUp   |    END    |     ≣     |
-//       |           |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   | SCROLL UP |
-//       |    UNDO   |    CUT    |    COPY   |   PASTE   |    REDO   |     |  M. LEFT  |  M. DOWN  |    M. UP  | M. RIGHT  | SCROLL DW |
+//       |   WIN+S   | SCLL LEFT | SCLL DOWN |  SCLL UP  | SCLL RGHT |     |    HOME   |    PgDn   |    PgUp   |    END    |     ≣     |
+//       |  ALT+TAB  |           |           |           |           |     |    LEFT   |    DOWN   |     UP    |   RIGHT   |   ENTER   |
+//       |    UNDO   |    CUT    |    COPY   |   PASTE   |    REDO   |     |   M LEFT  |   M DOWN  |    M UP   |  M RIGHT  |  R CLICK  |
 //       ------------------------|           |           |           |     |███████████|           |           |------------------------
 //                               -------------------------------------     -------------------------------------
         nav_layer {
             label = "Move";
             bindings = <
-&trans      &trans      &trans     &mkp RCLK    &mkp LCLK    &mkp MCLK         &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp  K_CMENU          &trans
-&trans      &trans      &trans      &trans      &trans       &trans            &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &mwh SCROLL_UP        &trans
-&trans      &kp LC(Z)   &kp LC(X)   &kp LC(C)   &kp LC(V)    &kp LC(Y)     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &mwh SCROLL_DOWN    &trans
+&trans    &kp LG(S) &mwh SCROLL_LEFT &mwh SCROLL_DOWN &mwh SCROLL_UP &mwh SCROLL_RIGHT           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp K_CMENU      &trans
+&trans    &kp LA(TAB) &trans      &trans      &trans       &trans            &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &kp ENTER        &trans
+&trans    &kp LC(Z)   &kp LC(X)   &kp LC(C)   &kp LC(V)    &kp LC(Y)     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &mkp RCLK      &trans
                                     &trans      &trans       &trans           &trans      &trans      &to LDEF
             >;
         };
+//         nav_layer {
+//             label = "Move";
+//             bindings = <
+// &trans      &kp LG(S)   &U_WH_L     &U_WH_D     &U_WH_U      &U_WH_R           &kp HOME    &kp PG_DN    &kp PG_UP   &kp END         &kp K_CMENU      &trans
+// &trans      &kp LA(TAB) &trans      &trans      &trans       &trans            &kp LEFT    &kp DOWN       &kp UP    &kp RIGHT       &kp ENTER        &trans
+// &trans      &kp LC(Z)   &kp LC(X)   &kp LC(C)   &kp LC(V)    &kp LC(Y)     &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_UP &mmv MOVE_RIGHT &mkp RCLK      &trans
+//                                     &trans      &trans       &trans           &trans      &trans      &to LDEF
+//             >;
+//         };
+
 
 //       -------------------------------------------------------------     -------------------------------------------------------------
 //       |    ` ^    |     !     |     @     |     #     |     $     |     |           |           |           |     *     |    / \    |
@@ -309,7 +310,7 @@
         };
 
 //       -------------------------------------------------------------     -------------------------------------------------------------
-//       |           |           |           |           |           |     |     7     |     8     |     9     |     *     |    / \    |
+//       |  ESC :q!  |  ESC :w   |           |           |           |     |     7     |     8     |     9     |     *     |    / \    |
 //       |           |           |           |           |           |     |     4     |     5     |     6     |     +     |     -     |
 //       |           |           |           |           |           |     |     1     |     2     |     3     |           |           |
 //       ------------------------|           |           |███████████|     |     0     |           |           |------------------------
@@ -317,7 +318,7 @@
         numerical_layer {
             label = "Numeric";
             bindings = <
-&trans      &trans      &trans      &trans      &trans       &trans      &kp N7      &kp N8      &kp N9    &kp ASTRK  &cht BSLH SLASH         &trans
+&trans      &nvim_quit  &nvim_save  &trans      &trans       &trans      &kp N7      &kp N8      &kp N9    &kp ASTRK  &cht BSLH SLASH         &trans
 &trans      &trans      &trans      &trans      &trans       &trans      &kp N4      &kp N5      &kp N6    &kp PLUS   &kp MINUS              &trans
 &trans      &trans      &trans      &trans      &trans       &trans      &kp N1      &kp N2      &kp N3    &trans     &trans                 &trans
                                  &trans       &trans       &trans          &kp N0     &trans      &to LDEF
@@ -341,21 +342,5 @@
             >;
         };
 
-
-// //       -------------------------------------------------------------     -------------------------------------------------------------
-// //       |           |           |     é     |           |           |     |           |     ú     |     í     |     ó     |           |
-// //       |     á     |           |           |           |           |     |           |           |           |           |███████████|
-// //       |           |           |     ç     |           |           |     |           |           |           |           |           |
-// //       ------------------------|           |           |           |     |           |           |           |------------------------
-// //                               -------------------------------------     -------------------------------------
-//         accents_layer {
-//             label = "Accents";
-//             bindings = <
-// &trans      &trans      &trans     &ac_eacu     &trans       &trans           &trans     &ac_uacu    &ac_iacu   &o_accents    &trans       &trans
-// &a_accents  &trans      &trans      &trans      &trans       &trans           &trans      &trans      &trans      &trans      &trans       &trans
-// &trans      &trans      &trans     &ac_ccdi     &trans       &trans           &trans      &trans      &trans      &trans      &trans       &trans
-//                                  &trans       &trans       &trans                &trans       &trans       &trans
-//             >;
-//         };
     };
 };
